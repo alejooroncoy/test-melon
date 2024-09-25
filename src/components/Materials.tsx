@@ -42,7 +42,7 @@ const Materials = ({ pointSelected }: Props) => {
       {Object.values(materialsSelectectedAllPoints).map((material) => (
         <div
           key={material.id}
-          className="fixed inset-0 z-0 object-cover object-center"
+          className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${Object.values(material.layers)[0]})`,
           }}

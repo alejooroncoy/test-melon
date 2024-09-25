@@ -20,6 +20,7 @@ const MaterialItem: FC<Props> = ({
   const materialisSelected = Object.values(materialsSelectectedAllPoints).some(
     ({ id }) => id === material.id,
   );
+  
 
   return (
     <motion.article
@@ -40,6 +41,8 @@ const MaterialItem: FC<Props> = ({
         className="size-28 p-2 bg-white/65 rounded-lg rounded-l-none cursor-pointer"
       >
         <Image
+          width={200}
+          height={200}
           className="object-cover w-full h-full"
           src={material.materialPreview}
           alt={`Preview imagen de ${material.name}`}
