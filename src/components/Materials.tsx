@@ -9,24 +9,45 @@ type Props = {
   pointSelected: Point | null;
 };
 
+export type MaterialsSelectectedAllPoints = {
+  [key: string]: Material;
+};
+
 const Materials = ({ pointSelected }: Props) => {
   const materials = useMaterials(pointSelected?.id);
-  const [materialSelected, setMaterialSelected] = useState<Material | null>(
-    null,
-  );
+  const [materialsSelectectedAllPoints, setMaterialsSelectectedAllPoints] =
+    useState<MaterialsSelectectedAllPoints>({});
+
+  const setMaterialSelected = (material: Material) => {
+    setMaterialsSelectectedAllPoints((prev) => {
+      return {
+        ...prev,
+        [pointSelected?.id as string]: material,
+      };
+    });
+  };
 
   return (
     <section className="absolute right-0 flex flex-col gap-2 mt-10 mx-4">
       <AnimatePresence mode="wait">
         {materials.map((material) => (
           <MaterialItem
-            materialSelected={materialSelected}
+            materialsSelectectedAllPoints={materialsSelectectedAllPoints}
             setMaterialSelected={setMaterialSelected}
             key={material.id}
             material={material}
           />
         ))}
       </AnimatePresence>
+      {Object.values(materialsSelectectedAllPoints).map((material) => (
+        <div
+          key={material.id}
+          className="fixed inset-0 z-0 object-cover object-center"
+          style={{
+            backgroundImage: `url(${Object.values(material.layers)[0]})`,
+          }}
+        />
+      ))}
     </section>
   );
 };

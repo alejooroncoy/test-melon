@@ -1,19 +1,25 @@
 import { Material } from "@/lib/db/getMaterials";
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, {  FC } from "react";
 import { motion } from "framer-motion";
+import { MaterialsSelectectedAllPoints } from "./Materials";
+import Image from "next/image";
 
 type Props = {
   material: Material;
-  setMaterialSelected: Dispatch<SetStateAction<Material | null>>;
-  materialSelected: Material | null;
+  setMaterialSelected: (material: Material) => void;
+  materialsSelectectedAllPoints: MaterialsSelectectedAllPoints;
 };
 
 const MaterialItem: FC<Props> = ({
   material,
   setMaterialSelected,
-  materialSelected,
+  materialsSelectectedAllPoints,
 }) => {
   const handleClickSelect = () => setMaterialSelected(material);
+
+  const materialisSelected = Object.values(materialsSelectectedAllPoints).some(
+    ({ id }) => id === material.id,
+  );
 
   return (
     <motion.article
@@ -27,13 +33,13 @@ const MaterialItem: FC<Props> = ({
         opacity: 1,
       }}
       key={material.id}
-      className="flex flex-row-reverse w-72 rounded-lg"
+      className="flex flex-row-reverse w-72 rounded-lg z-20"
     >
       <header
         onClick={handleClickSelect}
         className="size-28 p-2 bg-white/65 rounded-lg rounded-l-none cursor-pointer"
       >
-        <img
+        <Image
           className="object-cover w-full h-full"
           src={material.materialPreview}
           alt={`Preview imagen de ${material.name}`}
@@ -44,7 +50,7 @@ const MaterialItem: FC<Props> = ({
           width: 0,
         }}
         animate={{
-          width: material.id === materialSelected?.id ? "9rem" : 0,
+          width: materialisSelected ? "9rem" : 0,
         }}
         className="bg-white/65  flex rounded-lg rounded-r-none items-center justify-center overflow-hidden"
       >
