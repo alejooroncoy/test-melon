@@ -1,4 +1,5 @@
 "use client";
+import RoomConfigurator from "@/components/RoomConfigurator";
 import { IMAGE_BACKGROUND } from "@/constants";
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
       style={{
         backgroundImage: `url(${IMAGE_BACKGROUND})`,
       }}
-    ></main>
+    >
+      <RoomConfigurator />
+    </main>
   );
 }
