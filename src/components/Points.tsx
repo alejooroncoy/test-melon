@@ -1,36 +1,33 @@
 "use client";
 
 import usePoints from "@/hooks/usePoints";
-import useScreenSize from "@/hooks/useScreenSize";
 import { Point } from "@/lib/db/getPoints";
-import FingerPrint from "./icons/FingerPrint";
 import { Dispatch, FC, SetStateAction } from "react";
+import dynamic from "next/dynamic";
 
 type Props = {
   setPointSelected: Dispatch<SetStateAction<Point | null>>;
-}
+  pointSelected: Point | null;
+};
 
-const Points: FC<Props> = ({ setPointSelected }) => {
+const PointItem = dynamic(() => import('./PointItem'), {
+  loading: () => <p>Cargando punto...</p>,
+  ssr: false
+})
+
+const Points: FC<Props> = ({ setPointSelected, pointSelected }) => {
   const points = usePoints();
-  const { width, height } = useScreenSize();
 
   return (
-    <div className="fixed inset-0 z-20">
-      {points.map((point: Point) => {
-        return (
-          <div
-            onClick={() => setPointSelected(point)}
-            key={point.id}
-            className="absolute p-3 bg-gray-700 z-20 before:absolute before:scale-90 before:inset-0 before:border before:border-gray-50 before:rounded-full before:m-auto rounded-full cursor-pointer"
-            style={{
-              top: (height * point.coordY) / 94,
-              left: (width * point.coordX) / 98,
-            }}
-          >
-            <FingerPrint className="text-white size-6" />
-          </div>
-        );
-      })}
+    <div onClick={() => setPointSelected(null)} className={"fixed inset-0 z-20".concat(pointSelected ? " cursor-pointer" : "")}>
+      {points.map((point: Point) => (
+        <PointItem
+          key={point.id}
+          point={point}
+          pointSelected={pointSelected}
+          setPointSelected={setPointSelected}
+        />
+      ))}
     </div>
   );
 };

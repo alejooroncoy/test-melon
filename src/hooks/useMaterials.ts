@@ -5,7 +5,10 @@ const useMaterials = (pointId?: string) => {
   const [materials, setMaterials] = useState<Material[]>([]);
 
   const searchMaterials = useCallback(async () => {
-    if (!pointId) return;
+    if (!pointId) {
+      setMaterials([]);
+      return;
+    }
     const materials = await getMaterials(pointId);
     setMaterials(materials);
   }, [pointId]);
