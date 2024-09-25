@@ -1,13 +1,20 @@
 import { Point } from "@/lib/db/getPoints"
-import Points from "./Points"
+import Materials from "./Materials"
 import { useState } from "react"
+import dynamic from "next/dynamic"
+
+const Points = dynamic(() => import('./Points'), {
+  loading: () => <p>Cargando puntos...</p>,
+  ssr: false
+})
 
 const RoomConfigurator = () => {
-  const [, setPointSelected] = useState<Point | null>(null)
+  const [pointSelected, setPointSelected] = useState<Point | null>(null)
 
   return (
     <div>
       <Points setPointSelected={setPointSelected} />
+      <Materials pointSelected={pointSelected} />
     </div>
   )
 }

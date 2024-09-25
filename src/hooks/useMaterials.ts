@@ -1,17 +1,18 @@
 import getMaterials, { Material } from "@/lib/db/getMaterials";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-const useMaterials = () => {
+const useMaterials = (pointId?: string) => {
   const [materials, setMaterials] = useState<Material[]>([]);
 
-  const gettingMaterials = async () => {
-    const materials = await getMaterials();
+  const searchMaterials = useCallback(async () => {
+    if (!pointId) return;
+    const materials = await getMaterials(pointId);
     setMaterials(materials);
-  }
+  }, [pointId]);
 
   useEffect(() => {
-    gettingMaterials();
-  }, []);
+    searchMaterials();
+  }, [searchMaterials]);
 
   return materials;
 }

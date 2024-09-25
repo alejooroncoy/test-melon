@@ -20,10 +20,10 @@ const Points: FC<Props> = ({ setPointSelected }) => {
         return (
           <div
             onClick={() => setPointSelected(point)}
-            key={point.name}
+            key={point.id}
             className="absolute p-3 bg-gray-700 before:absolute before:scale-90 before:inset-0 before:border before:border-gray-50 before:rounded-full before:m-auto rounded-full cursor-pointer"
             style={{
-              top: (height * point.coordY) / 92,
+              top: (height * point.coordY) / 94,
               left: (width * point.coordX) / 98,
             }}
           >
