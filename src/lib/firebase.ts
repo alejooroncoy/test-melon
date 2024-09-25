@@ -8,4 +8,4 @@ export const getFirebase = (): FirebaseApp => {
 
   firebase = initializeApp(firebaseConfig);
   return firebase;
-}
+};

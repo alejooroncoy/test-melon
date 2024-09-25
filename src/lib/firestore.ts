@@ -5,4 +5,3 @@ const firebase = getFirebase();
 const firestore = getFirestore(firebase);
 
 export default firestore;
-
