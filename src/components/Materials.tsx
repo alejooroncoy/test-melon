@@ -3,7 +3,8 @@ import { Point } from "@/lib/db/getPoints";
 import MaterialItem from "./MaterialItem";
 import { useState } from "react";
 import { Material } from "@/lib/db/getMaterials";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 
 type Props = {
   pointSelected: Point | null;
@@ -12,6 +13,8 @@ type Props = {
 export type MaterialsSelectectedAllPoints = {
   [key: string]: Material;
 };
+
+const ImageAnimated = motion(Image);
 
 const Materials = ({ pointSelected }: Props) => {
   const materials = useMaterials(pointSelected?.id);
@@ -39,15 +42,21 @@ const Materials = ({ pointSelected }: Props) => {
           />
         ))}
       </AnimatePresence>
-      {Object.values(materialsSelectectedAllPoints).map((material) => (
-        <div
-          key={material.id}
-          className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url(${Object.values(material.layers)[0]})`,
-          }}
-        />
-      ))}
+      <AnimatePresence mode="wait">
+        {Object.values(materialsSelectectedAllPoints).map((material) => (
+          <ImageAnimated
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            key={material.id}
+            src={material.layers[pointSelected?.id as string]}
+            className="fixed inset-0 object-cover w-full h-full"
+            width={1000}
+            height={1000}
+            alt="Material"
+          />
+        ))}
+      </AnimatePresence>
     </section>
   );
 };
